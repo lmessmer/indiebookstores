@@ -156,6 +156,27 @@ const attachmentsElement = new AttachmentsContent({ // Add attachments element s
   ]
 };  
 
+//added code to create a new action button on popup to get directions to specific store
+// Create a new action button
+const getDirections = {
+  title: "Get Directions",
+  id: "get-directions",
+  image: "https://your-website.com/path-to-icon/get-directions-icon.png" // replace with the URL of your icon
+};
+
+// Add the action button to the popup template of the indieBookstores layer
+popupBookstores.actions = [getDirections];
+
+// Listen for the trigger-action event on the view's popup
+view.popup.on("trigger-action", function(event){
+  // If the get-directions action is clicked, set the destination of the Directions widget
+  if(event.action.id === "get-directions"){
+    const feature = view.popup.selectedFeature;
+    directionsWidget.routeParameters.stops.features = [feature];
+    directionsWidget.getDirections();
+  }
+});
+
 // Create indieBookstores featurelayer from feature service 
 const indieBookstores = new FeatureLayer({
       url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_90bd253958b04c72984cdde506f14c81_results/FeatureServer",
