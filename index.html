@@ -166,6 +166,17 @@ const getDirections = {
 // Add the action button to the popup template of the indieBookstores layer
 popupBookstores.actions = [getDirections];
 
+// new RouteLayer must be added to Directions widget
+const directionsWidget = new Directions({
+  layer: routeLayer
+  //apiKey: "AAPK9bfb405438ae474fbe125816fbb635885Ev1u6Q5RSFaw-0KyQks_dfsDxww5d-TULdrRCUhzDS1Q42GErsuR85W9G1hAAT3"
+});
+
+// adds the Directions widget to the top right corner of the view
+view.ui.add(directionsWidget, {
+  position: "top-right" 
+});
+
 // Listen for the trigger-action event on the view's popup
 view.popup.on("trigger-action", function(event){
   // If the get-directions action is clicked, set the destination of the Directions widget
@@ -281,16 +292,7 @@ const legendExpand = new Expand({
 // Add expand widget for the legend to the top left corner of the view
 view.ui.add(legendExpand, "top-left");
       
-// new RouteLayer must be added to Directions widget
-const directionsWidget = new Directions({
-  layer: routeLayer
-  //apiKey: "AAPK9bfb405438ae474fbe125816fbb635885Ev1u6Q5RSFaw-0KyQks_dfsDxww5d-TULdrRCUhzDS1Q42GErsuR85W9G1hAAT3"
-});
 
-// adds the Directions widget to the top right corner of the view
-view.ui.add(directionsWidget, {
-  position: "top-right" 
-});
         });
 
         </script>
