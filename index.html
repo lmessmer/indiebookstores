@@ -72,8 +72,8 @@
    
    </style>
 
-   <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.26/"></script>
+   <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.27/"></script>
 
     <script> // Add all require statements
         require([ 
@@ -179,14 +179,14 @@ view.ui.add(directionsWidget, {
 console.log(routeLayer);
 
 // Listen for the trigger-action event on the view's popup
-view.popup.on("trigger-action", function(event){
-  // If the get-directions action is clicked, set the destination of the Directions widget
-  if(event.action.id === "get-directions"){
-    const feature = view.popup.selectedFeature;
-    directionsWidget.routeParameters.stops.features = [feature];
-    directionsWidget.getDirections();
-  }
-});
+// view.popup.on("trigger-action", function(event){
+//   // If the get-directions action is clicked, set the destination of the Directions widget
+//   if(event.action.id === "get-directions"){
+//     const feature = view.popup.selectedFeature;
+//     directionsWidget.routeParameters.stops.features = [feature];
+//     directionsWidget.getDirections();
+//   }
+// });
 
 // Create indieBookstores featurelayer from feature service 
 const indieBookstores = new FeatureLayer({
