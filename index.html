@@ -72,8 +72,8 @@
    
    </style>
 
-   <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.26/"></script>
+   <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.27/"></script>
 
     <script> // Add all require statements
         require([ 
@@ -84,20 +84,30 @@
         "esri/widgets/Search",
         "esri/layers/FeatureLayer",
         "esri/popup/content/AttachmentsContent",
-        "esri/widgets/Directions",
         "esri/symbols/SimpleMarkerSymbol",
         "esri/widgets/Editor",
         "esri/widgets/Expand",
-        "esri/widgets/Legend"
-    ],
+        "esri/widgets/Legend",
+        "esri/widgets/Directions",
+        "esri/layers/RouteLayer"
+                    ],
         // Add all parameters of require statements
-        (Map, MapView, esriConfig, Locate, Search, FeatureLayer, AttachmentsContent, Directions, simpleMarkerSymbol, Editor, Expand, Legend) => {
-        // Add API key
-        esriConfig.apiKey = "AAPKc722771c0ccc42f6b3a50f98f0541437noDYBlU0Z8XIJioQe0FCEDxsHh9fAgIj7WZTgQnwd8Iro4vn-CgJSPt4wG7YeNvj";
+        (Map, MapView, esriConfig, Locate, Search, FeatureLayer, AttachmentsContent, SimpleMarkerSymbol, Editor, Expand, Legend, Directions, RouteLayer) => {
         
+        //fixed SimpleMarkerSymbol error, s was not captalized
+        
+          // Add API key
+        esriConfig.apiKey = "AAPK9010d0b61469421388268a0a3d6b9970behQAuDdJqQ1pqWiFduaupUbAQXKrMzBGDNlYvnzFhJVmo4o4_JV_Y0cDx9Umj8M";
+
+        //testing with my key to rule out API errors
+        
+          // create a new empty RouteLayer
+        const routeLayer = new RouteLayer();
+
         // Create a map
         const map = new Map({
-            basemap: "arcgis-light-gray" 
+            basemap: "arcgis-light-gray",
+            layers: [routeLayer] // Add routeLayer to map
             });
         
         // Create a MapView
@@ -145,6 +155,38 @@ const attachmentsElement = new AttachmentsContent({ // Add attachments element s
     attachmentsElement
   ]
 };  
+
+//added code to create a new action button on popup to get directions to specific
+// Create a new action button
+const getDirections = {
+  title: "Get Directions",
+  id: "get-directions"
+};
+
+// Add the action button to the popup template of the indieBookstores layer
+popupBookstores.actions = [getDirections];
+
+// new RouteLayer must be added to Directions widget
+const directionsWidget = new Directions({
+  layer: routeLayer
+  //apiKey: "AAPK9bfb405438ae474fbe125816fbb635885Ev1u6Q5RSFaw-0KyQks_dfsDxww5d-TULdrRCUhzDS1Q42GErsuR85W9G1hAAT3"
+});
+
+// adds the Directions widget to the top right corner of the view
+view.ui.add(directionsWidget, {
+  position: "top-right" 
+});
+console.log(routeLayer);
+
+// Listen for the trigger-action event on the view's popup
+// view.popup.on("trigger-action", function(event){
+//   // If the get-directions action is clicked, set the destination of the Directions widget
+//   if(event.action.id === "get-directions"){
+//     const feature = view.popup.selectedFeature;
+//     directionsWidget.routeParameters.stops.features = [feature];
+//     directionsWidget.getDirections();
+//   }
+// });
 
 // Create indieBookstores featurelayer from feature service 
 const indieBookstores = new FeatureLayer({
@@ -247,9 +289,11 @@ const legendExpand = new Expand({
   content: legend
 });
 
+
 // Add expand widget for the legend to the top left corner of the view
 view.ui.add(legendExpand, "top-left");
       
+
         });
 
         </script>
@@ -270,4 +314,3 @@ view.ui.add(legendExpand, "top-left");
    <div id="viewDiv"></div>
   </body>
 </html>
-
