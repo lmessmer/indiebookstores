@@ -176,6 +176,7 @@ const directionsWidget = new Directions({
 view.ui.add(directionsWidget, {
   position: "top-right" 
 });
+console.log(routeLayer);
 
 // Listen for the trigger-action event on the view's popup
 view.popup.on("trigger-action", function(event){
